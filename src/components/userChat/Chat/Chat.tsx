@@ -4,63 +4,49 @@ import {useAppSelector} from "../../../store/selectors";
 import avatar from '../../../assets/img/avatar/user.png'
 import {finalClassName} from "../../../utils/finalClassName";
 
-type ChatPropsType = {}
+export const Chat = () => {
 
-export const Chat = (props: ChatPropsType) => {
-
-    const usersData = useAppSelector(state => state.chat.users)
+    const messageData = useAppSelector(state => state.chat.messages)
 
     return (
-        <div className={style.chat__body}>
+            <div
+                className={style.chat__body}
+            >
 
-            <ul>
-                {
-                    usersData.map(user => {
+                <ul>
+                    {
+                        messageData.map(message => {
 
-                        const isUser = user.id === 1
+                            const isUser = message.userId === 1
 
-                        const message_body = isUser
-                            ? `${style.chat__message_body} ${style.chat__message_body_right}`
-                            : style.chat__message_body
-
-                        const chat__content = isUser
-                            ? `${style.chat__content} ${style.chat__content_right}`
-                            : style.chat__content
-
-                        const chat__messages_time = isUser
-                            ? `${style.chat__messages_time} ${style.chat__messages_time_right}`
-                            : style.chat__messages_time
-
-                        // finalClassName(style.chat__message_body, isUser)
-
-                        return (
-                            <li
-                                className={style.chat__message_container}
-                                key={user.id}>
-                                <div className={message_body}>
-                                    <img src={avatar} alt="avatar"/>
-                                    <div className={chat__content}>
-                                        <div className={style.chat__messages_container}>
-                                            <div className={style.chat__messages}>
-                                                <p>
-                                                    {user.message}
-                                                </p>
-                                                <p className={chat__messages_time}>
-                                                    Time here
-                                                </p>
+                            return (
+                                <li
+                                    className={style.chat__message_container}
+                                    key={message.userId}>
+                                    <div className={finalClassName(style, 'chat__message_body', isUser)}>
+                                        <img src={avatar} alt="avatar"/>
+                                        <div className={finalClassName(style, 'chat__content', isUser)}>
+                                            <div className={style.chat__messages_container}>
+                                                <div className={style.chat__messages}>
+                                                    <p>
+                                                        {message.message}
+                                                    </p>
+                                                    <p className={finalClassName(style, 'chat__messages_time', isUser)}>
+                                                        <i className="ri-time-line"/>
+                                                        <span>{message.time}</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div className={style.chat__username}>
+                                                {message.name}
                                             </div>
                                         </div>
-                                        <div className={style.chat__username}>
-                                            {user.name}
-                                        </div>
                                     </div>
-                                </div>
-                            </li>
-                        )
-                    })
-                }
-            </ul>
-        </div>
-
+                                </li>
+                            )
+                        })
+                    }
+                </ul>
+            </div>
     )
 }

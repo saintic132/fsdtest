@@ -2,6 +2,8 @@
   padding: 20px 0;
   flex: 1 1 auto;
   border-bottom: 1px solid #f0eff5;
+  max-height: calc(100vh - 151px);
+  overflow: auto;
 
   ul {
     margin: 0;
@@ -15,30 +17,29 @@
       display: flex;
       flex-direction: column;
     }
-
   }
 }
 
 .chat__message_body {
   display: flex;
   align-items: flex-end;
+  word-break: break-all;
+  max-width: 50%;
 
   &.chat__message_body_right {
     flex-direction: row-reverse;
     align-self: flex-end;
 
-    img {
+    > img {
       margin: 0 0 0 16px;
     }
   }
 
-  img {
+  > img {
     width: 35px;
     height: 35px;
     margin: 0 16px 0 0;
   }
-
-
 }
 
 .chat__content {
@@ -70,6 +71,15 @@
 
         &.chat__messages_time_right {
           text-align: left;
+        }
+
+        > i {
+          margin-right: 5px;
+          vertical-align: middle !important;
+        }
+
+        > span {
+          vertical-align: middle !important;
         }
       }
     }

@@ -1,7 +1,7 @@
-export const finalClassName = (baseClass: string, isSelfId: boolean) => {
+export const finalClassName = (styleObj: any, baseClass: string, isSelfId: boolean) => {
     if (isSelfId) {
-        return `${baseClass} ${baseClass}_right`
+        return `${styleObj[baseClass]} ${styleObj[`${baseClass}_right`]}`
     } else {
-        return `${baseClass}`
+        return `${styleObj[baseClass]}`
     }
 }
