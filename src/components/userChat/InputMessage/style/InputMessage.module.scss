@@ -1,0 +1,23 @@
+.message__body {
+  flex: 0 1 auto;
+  padding: 25px 50px 25px 0;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+
+  input {
+    width: 90%;
+    padding: 8px 16px;
+    background-color: #36404a;
+    border: none;
+    border-radius: 6px;
+    color: #a6b0cf;
+    &:focus {
+      border: none;
+    }
+  }
+
+  button {
+
+  }
+}

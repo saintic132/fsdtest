@@ -1,0 +1,15 @@
+.userchat__container {
+  padding: 0 15px;
+  width: 100%;
+}
+
+.userchat__body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.userchat__header {
+  padding: 25px 0;
+  border-bottom: 1px solid #f0eff5;
+}
