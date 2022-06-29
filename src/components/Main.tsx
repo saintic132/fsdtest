@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import style from './Main.module.scss'
 import {LeftBar} from "./LeftBar/LeftBar";
 import {UserChat} from "./UserChat/UserChat";
@@ -8,8 +8,7 @@ import {useAppSelector} from "../store/selectors";
 
 function Main() {
 
-    // const isLogin = useAppSelector(state => state.chat.isLogin)
-    const isLogin = true
+    const isLogin = useAppSelector(state => state.chat.isLogin)
 
     return (
         <div className={style.wrapper}>

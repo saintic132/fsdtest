@@ -1,6 +1,7 @@
 import React from 'react';
 import style from './style/Users.module.scss'
 import {useAppSelector} from "../../../store/selectors";
+import ScrollableFeed from 'react-scrollable-feed';
 import avatarLogo from '../../../assets/img/avatar/user.png'
 
 export const Users = () => {
@@ -9,22 +10,22 @@ export const Users = () => {
 
     return (
         <div className={style.users__container}>
-            <ul>
-                {
-                    users.map(user => {
-                        return (
-                            <li key={user.userId}>
-                                <div className={style.users__user}>
-
-                                    <img src={avatarLogo} alt="avatar"/>
-                                    <div>{user.name}</div>
-
-                                </div>
-                            </li>
-                        )
-                    })
-                }
-            </ul>
+            <ScrollableFeed>
+                <ul>
+                    {
+                        users.map(user => {
+                            return (
+                                <li key={user.userId}>
+                                    <div className={style.users__user}>
+                                        <img src={avatarLogo} alt="avatar"/>
+                                        <div>{user.userName}</div>
+                                    </div>
+                                </li>
+                            )
+                        })
+                    }
+                </ul>
+            </ScrollableFeed>
         </div>
     )
 }

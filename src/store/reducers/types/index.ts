@@ -1,10 +1,10 @@
 export type UserType = {
-    userId: number
-    name: string
+    userId: string
+    userName: string
 }
 
 export type MessageType = UserType & {
-    messageId: number
+    messageId: string
     message: string
     time: string
 }
@@ -13,6 +13,6 @@ export type initialProjectsStateType = {
     users: UserType[]
     messages: MessageType[]
     userName: string
-    userId: number
+    userId: string
     isLogin: boolean
 }

@@ -2,8 +2,8 @@
   padding: 20px 0;
   flex: 1 1 auto;
   border-bottom: 1px solid #f0eff5;
-  max-height: calc(100vh - 151px);
-  overflow: auto;
+  max-height: calc(100vh - 160px);
+  overflow: hidden;
 
   ul {
     margin: 0;
@@ -16,6 +16,31 @@
       margin-bottom: 40px;
       display: flex;
       flex-direction: column;
+    }
+  }
+
+  & > div {
+    &::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 0, 0, 0.4);
+    }
+
+    &::-webkit-scrollbar-thumb:active {
+      background: rgba(0, 0, 0, .9);
     }
   }
 }

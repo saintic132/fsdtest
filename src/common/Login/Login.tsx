@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import style from './Login.module.scss'
+import style from './style/Login.module.scss'
 import {io} from "socket.io-client";
 import {useDispatch} from "react-redux";
 import {addUser} from "../../store/actions/chat";
+import {UserType} from "../../store/reducers/types";
 
-// const ENDPOINT = 'http://localhost:5000/'
-const ENDPOINT = 'https://fsdback.herokuapp.com/'
+const ENDPOINT = 'http://localhost:5000/'
+// const ENDPOINT = 'https://fsdback.herokuapp.com/'
 export let socket = io(ENDPOINT)
 
 export const Login = () => {
@@ -15,18 +16,24 @@ export const Login = () => {
     const [userName, setUserName] = useState<string>('');
 
     useEffect(() => {
-        socket.on('message', (message: any) => {
-            dispatch(addUser(message.id, userName))
-            console.log((message.text))
+        socket.on('self-user-data', (dataUser: UserType) => {
+            dispatch(addUser(dataUser))
         })
+    }, [dispatch])
 
-
-    }, [])
-
-    const send = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const newUserNameHandle = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
-        if (userName) {
+        if (userName.trim()) {
             socket.emit('join', userName, () => setUserName(''))
+        }
+    }
+
+    const onKeyPressEnterName = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (userName.trim()) {
+            if (e.key === 'Enter') {
+                e.preventDefault()
+                socket.emit('join', userName, () => setUserName(''))
+            }
         }
     }
 
@@ -37,10 +44,12 @@ export const Login = () => {
                 type="text"
                 value={userName}
                 onChange={(e) => setUserName(e.currentTarget.value)}
+                onKeyPress={onKeyPressEnterName}
                 placeholder='Enter name...'
             />
             <button
-                onClick={send}
+                tabIndex={0}
+                onClick={newUserNameHandle}
             >
                 Enter
             </button>

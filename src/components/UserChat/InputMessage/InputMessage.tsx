@@ -1,16 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import style from "./style/InputMessage.module.scss";
-import {useDispatch} from "react-redux";
 import {useAppSelector} from "../../../store/selectors";
-import {addNewMessage} from "../../../store/actions/chat";
 import {socket} from "../../../common/Login/Login";
-
 
 export const InputMessage = () => {
 
-
-    const dispatch = useDispatch()
-    const userName = useAppSelector(state => state.chat.userName)
     const userId = useAppSelector(state => state.chat.userId)
 
     const [messageValue, setMessageValue] = useState<string>('');
@@ -22,10 +16,16 @@ export const InputMessage = () => {
     const onKeyPressEnterMessage = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (messageValue.trim()) {
             if (e.key === 'Enter') {
-                // dispatch(addNewMessage(userId, userName, messageValue))
                 e.preventDefault()
                 socket.emit('client-new-message-sent', {id: userId, message: messageValue}, () => setMessageValue(''))
             }
+        }
+    }
+
+    const newMessageHandle = (e: React.MouseEvent<HTMLButtonElement>) => {
+        if (messageValue.trim()) {
+            e.preventDefault()
+            socket.emit('client-new-message-sent', {id: userId, message: messageValue}, () => setMessageValue(''))
         }
     }
 
@@ -40,7 +40,11 @@ export const InputMessage = () => {
                 onKeyPress={onKeyPressEnterMessage}
                 placeholder='Enter Message...'
             />
-            <button>send</button>
+            <button
+                onClick={newMessageHandle}
+            >
+                <i className="ri-send-plane-fill"/>
+            </button>
 
         </div>
     )
