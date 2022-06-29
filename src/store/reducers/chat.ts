@@ -21,6 +21,9 @@ export const chatReducer = (state: initialProjectsStateType = initialProjectsSta
         case CHAT.ADD_OTHER_USERS_IN_CHAT: {
             return {...state, users: [...action.dataUser]}
         }
+        case CHAT.DELETE_USER_FROM_CHAT: {
+            return {...state, users: state.users.filter(user => user.userId !== action.userId)}
+        }
         case CHAT.ADD_NEW_MESSAGE: {
             return {
                 ...state,

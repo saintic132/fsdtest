@@ -17,3 +17,7 @@ export const addOtherUserInChatUser = (dataUser: UserType[]) => ({
     type: CHAT.ADD_OTHER_USERS_IN_CHAT,
     dataUser
 } as const)
+export const deleteUserFromChat = (userId: string) => ({
+    type: CHAT.DELETE_USER_FROM_CHAT,
+    userId
+} as const)

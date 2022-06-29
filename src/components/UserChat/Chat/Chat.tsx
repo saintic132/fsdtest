@@ -6,7 +6,7 @@ import {socket} from "../../../common/Login/Login";
 import ScrollableFeed from 'react-scrollable-feed';
 import {useAppSelector} from "../../../store/selectors";
 import {useDispatch} from "react-redux";
-import {addNewMessage, addNewUser, addOtherUserInChatUser} from "../../../store/actions/chat";
+import {addNewMessage, addNewUser, addOtherUserInChatUser, deleteUserFromChat} from "../../../store/actions/chat";
 import {MessageType, UserType} from "../../../store/reducers/types";
 
 export const Chat = () => {
@@ -28,6 +28,10 @@ export const Chat = () => {
             if (dataUser.length !== 1) {
                 dispatch(addOtherUserInChatUser(dataUser))
             }
+        })
+
+        socket.on('user-left-from-chat', (userId: string) => {
+            dispatch(deleteUserFromChat(userId))
         })
 
         return () => {
