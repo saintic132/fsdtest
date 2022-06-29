@@ -13,7 +13,7 @@ export const Users = () => {
                 {
                     users.map(user => {
                         return (
-                            <li key={user.id}>
+                            <li key={user.userId}>
                                 <div className={style.users__user}>
 
                                     <img src={avatarLogo} alt="avatar"/>

@@ -1,7 +1,7 @@
 import React from 'react';
 import style from './style/UserChat.module.scss'
 import {Chat} from "./Chat/Chat";
-import {InputMessage} from './InputMessage/InputMessage';
+import {InputMessage} from "./InputMessage/InputMessage";
 
 export const UserChat = () => {
     return (
