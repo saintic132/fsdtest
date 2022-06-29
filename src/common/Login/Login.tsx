@@ -5,8 +5,8 @@ import {useDispatch} from "react-redux";
 import {addUser} from "../../store/actions/chat";
 import {UserType} from "../../store/reducers/types";
 
-// const ENDPOINT = 'http://localhost:5000/'
-const ENDPOINT = 'https://fsdback.herokuapp.com/'
+const ENDPOINT = 'http://localhost:5000/'
+// const ENDPOINT = 'https://fsdback.herokuapp.com/'
 export let socket = io(ENDPOINT)
 
 export const Login = () => {

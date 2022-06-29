@@ -4,6 +4,8 @@ import avatar from '../../../assets/img/avatar/user.png'
 import {finalClassName} from "../../../utils/finalClassName";
 import {socket} from "../../../common/Login/Login";
 import ScrollableFeed from 'react-scrollable-feed';
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import {useAppSelector} from "../../../store/selectors";
 import {useDispatch} from "react-redux";
 import {addNewMessage, addNewUser, addOtherUserInChatUser, deleteUserFromChat} from "../../../store/actions/chat";
@@ -21,7 +23,18 @@ export const Chat = () => {
         })
 
         socket.on('new-user-join', (dataUser: UserType) => {
-            dispatch(addNewUser(dataUser))
+            dispatch(addNewUser(dataUser)) &&
+            (function () {
+                return toast.info(`${dataUser.userName} joined.`, {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                })
+            })()
         })
 
         socket.on('other-user-in-chat', (dataUser: UserType[]) => {
@@ -30,8 +43,19 @@ export const Chat = () => {
             }
         })
 
-        socket.on('user-left-from-chat', (userId: string) => {
-            dispatch(deleteUserFromChat(userId))
+        socket.on('user-left-from-chat', (dataUser: UserType) => {
+            dispatch(deleteUserFromChat(dataUser.userId)) &&
+            (function () {
+                return toast.error(`${dataUser.userName} left.`, {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                })
+            })()
         })
 
         return () => {
@@ -45,6 +69,7 @@ export const Chat = () => {
         <div
             className={style.chat__body}
         >
+            <ToastContainer/>
             <ScrollableFeed>
                 <ul>
 
@@ -83,7 +108,6 @@ export const Chat = () => {
 
                 </ul>
             </ScrollableFeed>
-
         </div>
     )
 }

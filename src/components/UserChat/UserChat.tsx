@@ -8,7 +8,7 @@ export const UserChat = () => {
         <div className={style.userchat__container}>
             <div className={style.userchat__body}>
                 <div className={style.userchat__header}>
-                    HEADER
+                    HELLO INTO CUSTOM CHAT !!!!
                 </div>
 
                 <Chat/>

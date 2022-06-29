@@ -1,12 +1,12 @@
 .message__body {
   flex: 0 1 auto;
-  padding: 25px 50px 25px 0;
+  padding: 25px 10px 25px 0;
   display: flex;
   width: 100%;
   justify-content: space-between;
 
   > input {
-    width: 90%;
+    width: 87%;
     height: 40px;
     padding: 8px 16px;
     background-color: #36404a;
@@ -18,6 +18,14 @@
       border: none;
     }
   }
+}
+
+.message__buttons {
+  max-width: 160px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
   > button {
     border-radius: 35px;
@@ -36,5 +44,15 @@
       box-shadow: 0 1px #666;
       transform: translateY(1px);
     }
+  }
+
+  > img {
+    cursor: pointer;
+  }
+
+  > aside {
+    position: absolute !important;
+    right: 155px;
+    bottom: 100px;
   }
 }
