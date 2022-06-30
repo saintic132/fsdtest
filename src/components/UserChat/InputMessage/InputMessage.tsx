@@ -3,11 +3,13 @@ import style from "./style/InputMessage.module.scss";
 import smiles from '../../../assets/img/smiles/smile.png'
 import Picker, {IEmojiData} from 'emoji-picker-react';
 import {useAppSelector} from "../../../store/selectors";
-import {socket} from "../../../common/Login/Login";
+import {newMessagesSend} from "../../../store/middlewares/joinChat";
+import {useAppDispatch} from "../../../store/types";
 
 export const InputMessage = () => {
 
     const userId = useAppSelector(state => state.chat.userId)
+    const dispatch = useAppDispatch()
 
     const [messageValue, setMessageValue] = useState<string>('');
     const [showEmoji, setShowEmoji] = useState<boolean>(false);
@@ -20,7 +22,7 @@ export const InputMessage = () => {
         if (messageValue.trim()) {
             if (e.key === 'Enter') {
                 e.preventDefault()
-                socket.emit('client-new-message-sent', {id: userId, message: messageValue}, () => setMessageValue(''))
+                dispatch(newMessagesSend({userId, message: messageValue, setMessageValue}))
                 showEmoji && setShowEmoji(!showEmoji)
             }
         }
@@ -29,7 +31,7 @@ export const InputMessage = () => {
     const newMessageHandle = (e: React.MouseEvent<HTMLButtonElement>) => {
         if (messageValue.trim()) {
             e.preventDefault()
-            socket.emit('client-new-message-sent', {id: userId, message: messageValue}, () => setMessageValue(''))
+            dispatch(newMessagesSend({userId, message:messageValue, setMessageValue}))
             showEmoji && setShowEmoji(!showEmoji)
         }
     }
@@ -52,6 +54,7 @@ export const InputMessage = () => {
                 onChange={handleChangeMessageValue}
                 onKeyPress={onKeyPressEnterMessage}
                 placeholder='Enter Message...'
+                autoFocus
             />
 
             <div className={style.message__buttons}>

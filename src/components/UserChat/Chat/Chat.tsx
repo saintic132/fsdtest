@@ -2,65 +2,48 @@ import React, {useEffect} from 'react';
 import style from "./style/Chat.module.scss";
 import avatar from '../../../assets/img/avatar/user.png'
 import {finalClassName} from "../../../utils/finalClassName";
-import {socket} from "../../../common/Login/Login";
 import ScrollableFeed from 'react-scrollable-feed';
-import {ToastContainer, toast} from 'react-toastify';
+import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {useAppSelector} from "../../../store/selectors";
-import {useDispatch} from "react-redux";
-import {addNewMessage, addNewUser, addOtherUserInChatUser, deleteUserFromChat} from "../../../store/actions/chat";
-import {MessageType, UserType} from "../../../store/reducers/types";
+import {useAppDispatch} from "../../../store/types";
+import {chatUpdate, leftFromChat} from "../../../store/middlewares/joinChat";
 
 export const Chat = () => {
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const messageData = useAppSelector(state => state.chat.messages)
     const userId = useAppSelector(state => state.chat.userId)
 
+    const toastNewMemberJoin = (userName: string) => {
+        return toast.info(`${userName} joined.`, {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        })
+    }
+
+    const toastNewMemberLeft = (userName: string) => {
+        return toast.error(`${userName} left chat.`, {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        })
+    }
+
     useEffect(() => {
-        socket.on('new-message-sent', (message: MessageType) => {
-            dispatch(addNewMessage(message))
-        })
-
-        socket.on('new-user-join', (dataUser: UserType) => {
-            dispatch(addNewUser(dataUser)) &&
-            (function () {
-                return toast.info(`${dataUser.userName} joined.`, {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                })
-            })()
-        })
-
-        socket.on('other-user-in-chat', (dataUser: UserType[]) => {
-            if (dataUser.length !== 1) {
-                dispatch(addOtherUserInChatUser(dataUser))
-            }
-        })
-
-        socket.on('user-left-from-chat', (dataUser: UserType) => {
-            dispatch(deleteUserFromChat(dataUser.userId)) &&
-            (function () {
-                return toast.error(`${dataUser.userName} left.`, {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                })
-            })()
-        })
+        dispatch(chatUpdate({toastNewMemberJoin, toastNewMemberLeft}))
 
         return () => {
-            socket.emit('disconnect')
-            socket.off()
+            dispatch(leftFromChat())
         }
 
     }, [dispatch])
